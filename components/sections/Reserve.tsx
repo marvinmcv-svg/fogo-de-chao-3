@@ -1,6 +1,7 @@
 "use client";
 import { useState } from "react";
 import { SplitLines, Reveal } from "@/lib/motion/Reveal";
+import { apiFetch } from "@/lib/api";
 import { bookingSlots, waLink, type Locale } from "@/lib/site";
 import type { Dict } from "@/lib/i18n/dict";
 
@@ -28,7 +29,7 @@ export default function Reserve({ t, locale }: { t: Dict; locale: Locale }) {
 
     setState("busy");
     try {
-      const r = await fetch("/api/reserve", { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify({ ...v, party_size: Number(v.party_size), locale, source: "web" }) });
+      const r = await apiFetch("/api/reserve", { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify({ ...v, party_size: Number(v.party_size), locale, source: "web" }) });
       if (!r.ok) throw new Error(String(r.status));
       setWa(waLink(t.reserve.waText.replace("{name}", v.name).replace("{guests}", v.party_size).replace("{date}", v.date).replace("{time}", v.time)));
       setState("ok");

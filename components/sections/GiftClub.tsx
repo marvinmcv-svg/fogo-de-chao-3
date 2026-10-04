@@ -1,6 +1,7 @@
 "use client";
 import { useState } from "react";
 import { Gift, EnvelopeSimple } from "@phosphor-icons/react";
+import { apiFetch } from "@/lib/api";
 import { Reveal } from "@/lib/motion/Reveal";
 import { waLink, type Locale } from "@/lib/site";
 import type { Dict } from "@/lib/i18n/dict";
@@ -12,7 +13,7 @@ export default function GiftClub({ t, locale }: { t: Dict; locale: Locale }) {
     const email = String(new FormData(e.currentTarget).get("email") ?? "");
     setState("busy");
     try {
-      const r = await fetch("/api/club", { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify({ email, locale }) });
+      const r = await apiFetch("/api/club", { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify({ email, locale }) });
       setState(r.ok ? "ok" : "err");
     } catch { setState("err"); }
   }

@@ -2,6 +2,7 @@
 import { useEffect, useRef, useState } from "react";
 import { ChatsCircle, PaperPlaneTilt, X, Fire, WhatsappLogo } from "@phosphor-icons/react";
 import { gsap, reduced } from "@/lib/motion/gsap";
+import { apiFetch, IS_DEMO } from "@/lib/api";
 import { SITE, waLink, type Locale } from "@/lib/site";
 import type { Dict } from "@/lib/i18n/dict";
 
@@ -37,7 +38,7 @@ export default function Receptionist({ t, locale }: { t: Dict; locale: Locale })
     last.current = history;
     setMsgs([...history, { role: "assistant", content: "" }]);
     try {
-      const res = await fetch("/api/chat", {
+      const res = await apiFetch("/api/chat", {
         method: "POST", headers: { "content-type": "application/json" },
         body: JSON.stringify({ locale, messages: history.filter((m, i) => !(i === 0 && m.role === "assistant")).map(({ role, content }) => ({ role, content })) }),
       });
@@ -82,7 +83,7 @@ export default function Receptionist({ t, locale }: { t: Dict; locale: Locale })
           <header className="flex items-center justify-between gap-3 border-b border-line bg-char px-5 py-4">
             <div className="flex items-center gap-3">
               <span className="grid h-10 w-10 place-items-center rounded-full bg-ember text-white"><Fire size={20} weight="fill" /></span>
-              <div><p className="font-semibold leading-tight">{t.chat.title}</p><p className="text-xs text-tan">{t.chat.sub}</p></div>
+              <div><p className="font-semibold leading-tight">{t.chat.title}</p><p className="text-xs text-tan">{t.chat.sub}{IS_DEMO && " · DEMO"}</p></div>
             </div>
             <button onClick={() => setOpen(false)} aria-label={t.chat.close} className="grid h-10 w-10 place-items-center rounded-full hover:bg-line"><X size={18} /></button>
           </header>

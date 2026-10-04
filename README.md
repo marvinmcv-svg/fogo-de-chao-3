@@ -33,3 +33,6 @@ npm run build && npm start
 
 ## Motion and accessibility
 Everything honors `prefers-reduced-motion` (no smooth scroll, pinning, shader or 3D). The 3D scene mounts only near the viewport and only if WebGL is available.
+
+## Demo build (no keys needed)
+`npm run build:demo` writes a static site to `out/` where the AI receptionist and forms are answered by in-browser mocks (`lib/demo.ts`). Serve it with `npx serve out` or `python3 -m http.server --directory out 3000` and open `/es/`. It must be served over http; double-clicking `index.html` won't work.
